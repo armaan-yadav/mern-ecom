@@ -13,13 +13,17 @@ const Cart = lazy(() => import("./_root/cartPage/CartPage"));
 const Search = lazy(() => import("./_root/searchPage/SearchPage"));
 const ShippingPage = lazy(() => import("./_root/shippingPage/ShippingPage"));
 const LoginPage = lazy(() => import("./_auth/loginPage/LoginPage"));
+const MyOrdersPage = lazy(() => import("./_root/myOrdersPage/MyOrdersPage"));
+const OrderDetailsPage = lazy(
+  () => import("./_root/orderDetailsPage/OrderDetailsPage")
+);
 
 function App() {
   return (
     <BrowserRouter>
       <Suspense fallback={<Loading />}>
         <Routes>
-          {/* auth layout */}
+          S{/* auth layout */}
           <Route element={<AuthLayout />}>
             <Route path="/login" element={<LoginPage />} />
           </Route>
@@ -29,6 +33,8 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/search" element={<Search />} />
             <Route path="/shipping" element={<ShippingPage />} />
+            <Route path="/my-orders" element={<MyOrdersPage />} />
+            <Route path="/my-orders/:id" element={<OrderDetailsPage />} />
           </Route>
           {/* admin layout */}
           <Route element={<AdminLayout />}></Route>
