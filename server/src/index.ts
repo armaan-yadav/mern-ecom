@@ -1,7 +1,9 @@
 import express, { Application, Request, Response } from "express";
 import userRouter from "./routes/user.routes.js";
 import connectDB from "./db/db.js";
-import { errorMiddleware } from "./middlewares/erorr.midddleware.js";
+import { errorMiddleware } from "./middlewares/erorr.midddlewares.js";
+import productsRouter from "./routes/products.routes.js";
+import { Product } from "./models/product.models.js";
 
 const app: Application = express();
 const port = 4000;
@@ -11,7 +13,7 @@ connectDB();
 // for data to be read as valid json
 app.use(express.json());
 
-app.get("/", (_, res: Response) => {
+app.get("/api/v1", (_, res: Response) => {
   try {
     return res.status(200).json({ success: true, message: "Hello World" });
   } catch (error) {
@@ -23,6 +25,7 @@ app.get("/", (_, res: Response) => {
 
 // routers
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/products", productsRouter);
 
 //error middleware
 app.use(errorMiddleware);
