@@ -1,18 +1,5 @@
 import mongoose from "mongoose";
-
-export interface IUser {
-  _id: string;
-  name: string;
-  phone: string;
-  email: string;
-  role: "admin" | "user";
-  gender: "male" | "female";
-  dob: Date;
-  createdAt: Date;
-  updatedAt: Date;
-  //virtual attributes
-  age: number;
-}
+import { IUser } from "../types/types.js";
 
 const userSchema = new mongoose.Schema(
   {

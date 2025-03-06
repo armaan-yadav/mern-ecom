@@ -3,15 +3,19 @@ import userRouter from "./routes/user.routes.js";
 import connectDB from "./db/db.js";
 import { errorMiddleware } from "./middlewares/erorr.midddlewares.js";
 import productsRouter from "./routes/products.routes.js";
-import { Product } from "./models/product.models.js";
-
+import NodeCache from "node-cache";
+import ordersRouter from "./routes/orders.routes.js";
+import morgan from "morgan";
 const app: Application = express();
 const port = 4000;
 
 connectDB();
 
+export const nodeCache = new NodeCache();
+
 // for data to be read as valid json
 app.use(express.json());
+app.use(morgan("dev"));
 
 app.get("/api/v1", (_, res: Response) => {
   try {
@@ -26,6 +30,7 @@ app.get("/api/v1", (_, res: Response) => {
 // routers
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/products", productsRouter);
+app.use("/api/v1/orders", ordersRouter);
 
 //error middleware
 app.use(errorMiddleware);

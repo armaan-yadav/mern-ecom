@@ -1,6 +1,7 @@
 import { User } from "../models/user.models.js";
 import { ErrorHandler } from "../utils/errorHandler.js";
 import { tryCatch } from "../middlewares/erorr.midddlewares.js";
+import { responseHandler } from "../utils/features.js";
 export const createNewUser = tryCatch(async (req, res, next) => {
     //extract the input
     const { _id, dob, email, gender, name, phone } = req.body;
@@ -21,17 +22,11 @@ export const createNewUser = tryCatch(async (req, res, next) => {
         name,
         phone,
     });
-    return res.status(201).json({
-        message: `Welcome ${user.name}`,
-        success: true,
-        user,
-    });
+    return responseHandler(res, 201, `Welcome ${user.name}`, user);
 });
 export const getAllUsers = tryCatch(async (req, res, next) => {
     const users = await User.find({});
-    return res
-        .status(200)
-        .json({ success: true, message: "users fetched  succesfully", users });
+    return responseHandler(res, 200, "users fetched successfully", users);
 });
 export const getUserById = tryCatch(async (req, res, next) => {
     //extracting id from the param as it was passed ass dynamically in route
@@ -40,11 +35,9 @@ export const getUserById = tryCatch(async (req, res, next) => {
     const user = await User.findById(id);
     if (!user) {
         console.log("first");
-        return next(new ErrorHandler("User  does  not exist", 400));
+        return next(new ErrorHandler("User does not exist", 400));
     }
-    return res
-        .status(200)
-        .json({ success: true, message: "User fetched successfully", user });
+    return responseHandler(res, 200, "User fetched successfully", user);
 });
 export const deleteUserById = tryCatch(async (req, res, next) => {
     const id = req.params.id;
@@ -53,7 +46,5 @@ export const deleteUserById = tryCatch(async (req, res, next) => {
     const response = await User.findByIdAndDelete(id);
     if (!response)
         return next(new ErrorHandler("Invalid user id", 400));
-    return res
-        .status(200)
-        .json({ success: true, message: "User  deleted successfully" });
+    return responseHandler(res, 200, "User deleted successfully");
 });

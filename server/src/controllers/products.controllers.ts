@@ -1,8 +1,10 @@
+import { nodeCache } from "../index.js";
 import { tryCatch } from "../middlewares/erorr.midddlewares.js";
 import { Product } from "../models/product.models.js";
 import { BaseQuery } from "../types/types.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ErrorHandler } from "../utils/errorHandler.js";
+import { invalidateCache, responseHandler } from "../utils/features.js";
 
 export const uploadImage = tryCatch(async (req, res, next) => {
   if (!req.file?.path)
@@ -12,9 +14,7 @@ export const uploadImage = tryCatch(async (req, res, next) => {
 
   if (!url) throw new ErrorHandler("error  uploading file on cloudinary", 500);
 
-  return res
-    .status(200)
-    .json({ success: true, message: "file uploaded successfully", url });
+  return responseHandler(res, 200, "file uploaded successfully", { url });
 });
 
 export const addProduct = tryCatch(async (req, res, next) => {
@@ -40,13 +40,20 @@ export const addProduct = tryCatch(async (req, res, next) => {
     inStock,
   });
 
-  return res
-    .status(201)
-    .json({ success: true, message: "product added successfully", product });
+  await invalidateCache({ products: true });
+
+  return responseHandler(res, 201, "product added successfully", { product });
 });
 
+// cache
 export const getLatestProducts = tryCatch(async (req, res, next) => {
-  const products = await Product.find().sort({ createdAt: -1 }).limit(5);
+  let products = [];
+  if (nodeCache.has("latestProducts")) {
+    products = JSON.parse(nodeCache.get("latestProducts")!);
+  } else {
+    products = await Product.find().sort({ createdAt: -1 }).limit(5);
+    nodeCache.set("latestProducts", JSON.stringify(products));
+  }
 
   if (!products)
     throw new ErrorHandler(
@@ -54,15 +61,21 @@ export const getLatestProducts = tryCatch(async (req, res, next) => {
       500
     );
 
-  return res.status(201).json({
-    success: true,
-    message: "products fetched successfully",
+  return responseHandler(res, 201, "products fetched successfully", {
     products,
   });
 });
 
+//* REVALIDATE ON CREATE,UPDATE ,DELETE PRODUCT AND PLACE ORDER
+//cache
 export const getCategories = tryCatch(async (req, res, next) => {
-  const categories = await Product.distinct("category");
+  let categories = [];
+  if (nodeCache.has("categories")) {
+    categories = JSON.parse(nodeCache.get("categories")!);
+  } else {
+    categories = await Product.distinct("category");
+    nodeCache.set("categories", JSON.stringify(categories));
+  }
 
   if (!categories)
     throw new ErrorHandler(
@@ -70,9 +83,7 @@ export const getCategories = tryCatch(async (req, res, next) => {
       500
     );
 
-  return res.status(201).json({
-    success: true,
-    message: "categoried fetched successfully",
+  return responseHandler(res, 201, "categoried fetched successfully", {
     categories,
   });
 });
@@ -89,24 +100,27 @@ export const deleteProduct = tryCatch(async (req, res, next) => {
 
   if (!response) throw new ErrorHandler("Invalid product id", 400);
 
-  return res
-    .status(200)
-    .json({ success: true, message: "Product deleted  successfully" });
+  await invalidateCache({ products: true });
+
+  return responseHandler(res, 200, "Product deleted successfully");
 });
 
 export const getProductById = tryCatch(async (req, res, next) => {
   const id = req.params.id;
-
-  //TODO validate the id
   if (!id) return next(new ErrorHandler("Invalid id", 400));
+  //TODO validate the id
 
-  const product = await Product.findById(id);
+  let product;
+  if (nodeCache.has(`product-${id}`)) {
+    product = JSON.parse(nodeCache.get(`product-${id}`)!);
+  } else {
+    product = await Product.findById(id);
+    nodeCache.set(`product-${id}`, JSON.stringify(product)!);
+  }
 
   if (!product) throw new ErrorHandler("abc", 400);
 
-  return res
-    .status(200)
-    .json({ success: true, message: "product fetched successfully", product });
+  return responseHandler(res, 200, "product fetched successfully", { product });
 });
 
 //TODO can make  it better :
@@ -135,14 +149,20 @@ export const editProduct = tryCatch(async (req, res, next) => {
     throw new ErrorHandler(`Product with id ${id} does not exist`, 400);
   }
 
-  return res.status(200).json({
-    success: true,
-    message: "product updated successfully",
-  });
+  await invalidateCache({ products: true });
+  return responseHandler(res, 200, "product updated successfully");
 });
 
+//cache
 export const getAllProducts = tryCatch(async (req, res, next) => {
-  const products = await Product.find();
+  let products = [];
+
+  if (nodeCache.has("allProducts")) {
+    products = JSON.parse(nodeCache.get("allProducts")!);
+  } else {
+    products = await Product.find();
+    nodeCache.set("allProducts", JSON.stringify(products));
+  }
 
   if (!products)
     throw new ErrorHandler(
@@ -150,12 +170,11 @@ export const getAllProducts = tryCatch(async (req, res, next) => {
       500
     );
 
-  return res.status(201).json({
-    success: true,
-    message: "products fetched successfully",
+  return responseHandler(res, 201, "products fetched successfully", {
     products,
   });
 });
+
 export const getSearchedProducts = tryCatch(async (req, res, next) => {
   const { search, sort, category, price } = req.query;
   const page = Number(req.query.page) || 1;
@@ -190,9 +209,7 @@ export const getSearchedProducts = tryCatch(async (req, res, next) => {
       500
     );
 
-  return res.status(201).json({
-    success: true,
-    message: "products fetched successfully",
+  return responseHandler(res, 201, "products fetched successfully", {
     products,
     totalPage,
   });

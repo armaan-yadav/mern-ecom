@@ -1,16 +1,7 @@
 import { kStringMaxLength } from "buffer";
 import mongoose from "mongoose";
+import { IProduct } from "../types/types.js";
 
-export interface IProduct {
-  name: string;
-  photo: string;
-  price: number;
-  stock: number;
-  category: string;
-  createdAt: Date;
-  updatedAt: Date;
-  inStock: boolean;
-}
 
 const productSchema = new mongoose.Schema(
   {

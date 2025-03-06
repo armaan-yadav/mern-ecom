@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { User } from "../models/user.models.js";
 import { ErrorHandler } from "../utils/errorHandler.js";
 import { tryCatch } from "../middlewares/erorr.midddlewares.js";
+import { responseHandler } from "../utils/features.js";
 
 export const createNewUser = tryCatch(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -31,11 +32,7 @@ export const createNewUser = tryCatch(
       phone,
     });
 
-    return res.status(201).json({
-      message: `Welcome ${user.name}`,
-      success: true,
-      user,
-    });
+    return responseHandler(res, 201, `Welcome ${user.name}`, user);
   }
 );
 
@@ -43,9 +40,7 @@ export const getAllUsers = tryCatch(
   async (req: Request, res: Response, next: NextFunction) => {
     const users = await User.find({});
 
-    return res
-      .status(200)
-      .json({ success: true, message: "users fetched  succesfully", users });
+    return responseHandler(res, 200, "users fetched successfully", users);
   }
 );
 
@@ -59,12 +54,10 @@ export const getUserById = tryCatch(async (req, res, next) => {
 
   if (!user) {
     console.log("first");
-    return next(new ErrorHandler("User  does  not exist", 400));
+    return next(new ErrorHandler("User does not exist", 400));
   }
 
-  return res
-    .status(200)
-    .json({ success: true, message: "User fetched successfully", user });
+  return responseHandler(res, 200, "User fetched successfully", user);
 });
 
 export const deleteUserById = tryCatch(async (req, res, next) => {
@@ -75,7 +68,5 @@ export const deleteUserById = tryCatch(async (req, res, next) => {
 
   if (!response) return next(new ErrorHandler("Invalid user id", 400));
 
-  return res
-    .status(200)
-    .json({ success: true, message: "User  deleted successfully" });
+  return responseHandler(res, 200, "User deleted successfully");
 });
