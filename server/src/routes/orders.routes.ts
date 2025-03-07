@@ -3,6 +3,7 @@ import {
   allOrders,
   deleteOrder,
   editOrder,
+  getOrderById,
   myOrders,
   newOrder,
 } from "../controllers/orders.controllers.js";
@@ -14,8 +15,13 @@ ordersRouter.post("/new", newOrder);
 ordersRouter.get("/my", myOrders);
 ordersRouter.get("/all", isAdminMiddleware, allOrders);
 
-ordersRouter.put("/:id", editOrder);
+ordersRouter.get("/:id", getOrderById);
 
-ordersRouter.delete("/:id", deleteOrder);
+ordersRouter.put("/:id", isAdminMiddleware, editOrder);
+
+ordersRouter.delete("/:id", isAdminMiddleware, deleteOrder);
+
+// another way
+// ordersRouter.route("/:id").get(getOrderById).put(editOrder).delete(deleteOrder);
 
 export default ordersRouter;

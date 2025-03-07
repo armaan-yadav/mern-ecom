@@ -23,6 +23,7 @@ export interface InvalidateCacheProps {
   products?: boolean;
   orders?: boolean;
   admin?: boolean;
+  userId?: string;
 }
 
 export interface IOrder {

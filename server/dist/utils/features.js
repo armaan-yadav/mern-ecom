@@ -1,13 +1,14 @@
 import { nodeCache } from "../index.js";
 import { Product } from "../models/product.models.js";
 import { ErrorHandler } from "./errorHandler.js";
-export const invalidateCache = async ({ orders, products, admin, }) => {
+export const invalidateCache = async ({ orders, products, admin, userId, }) => {
     if (products) {
         const productKeys = [
             "latestProducts",
             "allProducts",
             "categories",
         ];
+        //  TODO  optimize the approach by providing the productId while deleting or editing a product
         const ids = await Product.find({}).select("_id");
         ids.forEach(({ _id }) => {
             productKeys.push(`product-${_id}`);
@@ -15,6 +16,8 @@ export const invalidateCache = async ({ orders, products, admin, }) => {
         nodeCache.del(productKeys);
     }
     if (orders) {
+        const orderKeys = ["all-orders", `myOrders-${userId}`];
+        nodeCache.del(orderKeys);
     }
     if (admin) {
     }
@@ -23,7 +26,7 @@ export const reduceStock = async (orderItems) => {
     orderItems.map(async (order) => {
         const product = await Product.findById(order.productId);
         if (!product)
-            throw new ErrorHandler("Product not found", 400);
+            throw new ErrorHandler("Product not found", 404);
         const updatedStock = product?.stock - order.quantity;
         await product?.updateOne({ stock: updatedStock });
     });

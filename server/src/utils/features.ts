@@ -7,6 +7,7 @@ export const invalidateCache = async ({
   orders,
   products,
   admin,
+  userId,
 }: InvalidateCacheProps) => {
   if (products) {
     const productKeys: string[] = [
@@ -14,6 +15,7 @@ export const invalidateCache = async ({
       "allProducts",
       "categories",
     ];
+    //  TODO  optimize the approach by providing the productId while deleting or editing a product
     const ids = await Product.find({}).select("_id");
 
     ids.forEach(({ _id }) => {
@@ -23,6 +25,9 @@ export const invalidateCache = async ({
     nodeCache.del(productKeys);
   }
   if (orders) {
+    const orderKeys: string[] = ["all-orders", `myOrders-${userId}`];
+
+    nodeCache.del(orderKeys);
   }
   if (admin) {
   }
@@ -31,7 +36,7 @@ export const invalidateCache = async ({
 export const reduceStock = async (orderItems: OrderItem[]) => {
   orderItems.map(async (order) => {
     const product = await Product.findById(order.productId);
-    if (!product) throw new ErrorHandler("Product not found", 400);
+    if (!product) throw new ErrorHandler("Product not found", 404);
     const updatedStock = product?.stock! - order.quantity;
     await product?.updateOne({ stock: updatedStock });
   });

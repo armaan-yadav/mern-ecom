@@ -6,6 +6,7 @@ import productsRouter from "./routes/products.routes.js";
 import NodeCache from "node-cache";
 import ordersRouter from "./routes/orders.routes.js";
 import morgan from "morgan";
+import couponRouter from "./routes/coupons.routes.js";
 const app = express();
 const port = 4000;
 connectDB();
@@ -27,6 +28,7 @@ app.get("/api/v1", (_, res) => {
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/products", productsRouter);
 app.use("/api/v1/orders", ordersRouter);
+app.use("/api/v1/coupons", couponRouter);
 //error middleware
 app.use(errorMiddleware);
 app.listen(port, () => {
