@@ -14,6 +14,10 @@ const Search = lazy(() => import("./_root/searchPage/SearchPage"));
 const ShippingPage = lazy(() => import("./_root/shippingPage/ShippingPage"));
 const LoginPage = lazy(() => import("./_auth/loginPage/LoginPage"));
 const MyOrdersPage = lazy(() => import("./_root/myOrdersPage/MyOrdersPage"));
+const PaymentPage = lazy(() => import("./_root/paymentPage/PaymentPage"));
+const SuccessPaymentPage = lazy(
+  () => import("./_root/successPaymentPage/SuccessPaymentPage")
+);
 const OrderDetailsPage = lazy(
   () => import("./_root/orderDetailsPage/OrderDetailsPage")
 );
@@ -35,6 +39,8 @@ function App() {
             <Route path="/shipping" element={<ShippingPage />} />
             <Route path="/my-orders" element={<MyOrdersPage />} />
             <Route path="/my-orders/:id" element={<OrderDetailsPage />} />
+            <Route path="/payment" element={<PaymentPage />} />
+            <Route path="/success-payment" element={<SuccessPaymentPage />} />
           </Route>
           {/* admin layout */}
           <Route element={<AdminLayout />}></Route>

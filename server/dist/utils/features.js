@@ -21,6 +21,7 @@ export const invalidateCache = async ({ orders, products, admin, userId, }) => {
     }
     if (admin) {
     }
+    nodeCache.del("adminStats");
 };
 export const reduceStock = async (orderItems) => {
     orderItems.map(async (order) => {
@@ -33,4 +34,10 @@ export const reduceStock = async (orderItems) => {
 };
 export const responseHandler = (res, statusCode, message, data) => {
     return res.status(statusCode).json({ success: true, message, data });
+};
+export const calculatePercentage = (thisMonth, prevMonth) => {
+    if (prevMonth === 0)
+        return thisMonth > 0 ? `+${thisMonth * 100}%` : "0%";
+    const percent = ((thisMonth - prevMonth) / prevMonth) * 100;
+    return `${percent > 0 ? "+" : ""}${percent.toFixed(0)}%`;
 };

@@ -1,9 +1,7 @@
-import { nodeCache } from "../index.js";
 import { tryCatch } from "../middlewares/erorr.midddlewares.js";
 import { Coupon } from "../models/coupon.models.js";
 import { ErrorHandler } from "../utils/errorHandler.js";
 import { responseHandler } from "../utils/features.js";
-import { newOrder } from "./orders.controllers.js";
 
 //TODO cache coupons as well
 export const newCoupon = tryCatch(async (req, res, next) => {

@@ -31,6 +31,7 @@ export const invalidateCache = async ({
   }
   if (admin) {
   }
+  nodeCache.del("adminStats");
 };
 
 export const reduceStock = async (orderItems: OrderItem[]) => {
@@ -49,4 +50,13 @@ export const responseHandler = (
   data?: {}
 ) => {
   return res.status(statusCode).json({ success: true, message, data });
+};
+
+export const calculatePercentage = (
+  thisMonth: number,
+  prevMonth: number
+): string => {
+  if (prevMonth === 0) return thisMonth > 0 ? `+${thisMonth * 100}%` : "0%";
+  const percent = ((thisMonth - prevMonth) / prevMonth) * 100;
+  return `${percent > 0 ? "+" : ""}${percent.toFixed(0)}%`;
 };
