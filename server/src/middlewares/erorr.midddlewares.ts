@@ -11,7 +11,9 @@ export async function errorMiddleware(
   err.message ||= "Internal Server Error.";
   err.statusCode ||= 500;
 
-  return res.status(400).json({ message: err.message, success: false });
+  return res
+    .status(400)
+    .json({ message: err.message, success: false, name: "hello" });
 }
 
 export const tryCatch = (func: ControllerType) => {

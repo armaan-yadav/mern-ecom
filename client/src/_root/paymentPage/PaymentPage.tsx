@@ -23,7 +23,7 @@ const PaumentPage: React.FC = () => {
   const checkoutHandler = async () => {
     try {
       const res = await fetch(
-        "http://localhost:4000/api/v1/payments/create-order",
+        "http://localhost:4500/api/v1/payments/create-order",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -62,7 +62,7 @@ const PaumentPage: React.FC = () => {
       description: "Test Transaction",
       image: "https://example.com/your_logo",
       order_id: order.id,
-      callback_url: "http://localhost:4000/api/v1/payments/verify",
+      callback_url: "http://localhost:4500/api/v1/payments/verify",
       notes: { address: "Earth" },
       prefill: {
         name: "Armaan Yadav",

@@ -20,7 +20,7 @@ export const nodeCache = new NodeCache();
 
 // for data to be read as valid json
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use(cors({ origin: "*" }));
 

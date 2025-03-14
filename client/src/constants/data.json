@@ -1,0 +1,49 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Armaan",
+      "email": "armaan@gmail.com"
+    },
+    {
+      "id": "2",
+      "name": "Rahul",
+      "email": "rahul@gmail.com"
+    },
+    {
+      "id": "d0f4",
+      "name": "raj",
+      "email": "raj@gmail.com"
+    },
+    {
+      "id": "9ad8",
+      "name": "abc",
+      "email": "abc@gmail.com"
+    },
+    {
+      "id": "df41",
+      "name": "d",
+      "email": "d@a.com"
+    },
+    {
+      "id": "2747",
+      "name": "abc",
+      "email": "abdcc@c.com"
+    },
+    {
+      "id": "53c9",
+      "name": "hello",
+      "email": "hello@gmail.com"
+    },
+    {
+      "id": "3212",
+      "name": "ram",
+      "email": "ram@gmail.com"
+    },
+    {
+      "id": "f69a",
+      "name": "jell",
+      "email": "jelll@gmail.com"
+    }
+  ]
+}

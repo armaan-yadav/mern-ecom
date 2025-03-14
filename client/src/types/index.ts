@@ -18,3 +18,13 @@ export interface Order {
   transactionId: string;
   estimatedDelivery: string;
 }
+
+export interface User {
+  _id: string;
+  name: string;
+  phone?: string;
+  email: string;
+  role?: "admin" | "user";
+  gender?: "male" | "female";
+  dob?: string;
+}

@@ -4,23 +4,17 @@ import { tryCatch } from "../middlewares/erorr.midddlewares.js";
 import { responseHandler } from "../utils/features.js";
 export const createNewUser = tryCatch(async (req, res, next) => {
     //extract the input
-    const { _id, dob, email, gender, name, phone } = req.body;
+    const { _id, email, name } = req.body;
+    console.log(req.body);
     // validate the input
-    if (!_id || !email || !name || !phone) {
+    if (!_id || !email || !name) {
         throw new ErrorHandler("Missing required fields", 400);
-    }
-    // Validate gender input
-    if (!["male", "female"].includes(gender)) {
-        throw new ErrorHandler("Invalid gender. Allowed values are 'male' or 'female'.", 400);
     }
     //create new user in db
     const user = await User.create({
         _id,
-        dob: new Date(dob),
         email,
-        gender,
         name,
-        phone,
     });
     return responseHandler(res, 201, `Welcome ${user.name}`, user);
 });

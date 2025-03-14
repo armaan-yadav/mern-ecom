@@ -7,8 +7,9 @@ const userSchema = new mongoose.Schema(
     name: { type: String, required: [true, "Name is required"] },
     phone: {
       type: String,
-      required: [true, "Phone is required"],
-      unique: [true, "Phone number must be unique"],
+      required: false,
+      // required: [true, "Phone is required"],
+      // unique: [true, "Phone number must be unique"],
     },
     email: { type: String, unique: true },
     photo: { type: String },
@@ -16,26 +17,29 @@ const userSchema = new mongoose.Schema(
     gender: {
       type: String,
       enum: ["male", "female"],
-      required: [true, "Gender is required"],
+      // required: [true, "Gender is required"],
     },
-    dob: { type: Date, required: [true, "DOB is required"] },
+    dob: {
+      type: Date,
+      //  required: [true, "DOB is required"]
+    },
   },
   { timestamps: true }
 );
 
-userSchema.virtual("age").get(function () {
-  const today = new Date();
-  const dob = this.dob;
-  let age = dob.getFullYear() - today.getFullYear();
+// userSchema.virtual("age").get(function () {
+//   const today = new Date();
+//   const dob = this.dob;
+//   let age = dob.getFullYear() - today.getFullYear();
 
-  if (
-    today.getMonth() < dob.getMonth() ||
-    (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate())
-  ) {
-    age--;
-  }
+//   if (
+//     today.getMonth() < dob.getMonth() ||
+//     (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate())
+//   ) {
+//     age--;
+//   }
 
-  return age;
-});
+//   return age;
+// });
 
 export const User = mongoose.model<IUser>("User", userSchema);

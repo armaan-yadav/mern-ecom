@@ -11,9 +11,10 @@ import { GalleryVerticalEnd } from "lucide-react";
 import { FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 
-const LoginPage = () => {
+const SignupPage = () => {
   const [email, setEmail] = useState("raj@gmail.com");
   const [password, setPassword] = useState("111111");
+  const [name, setName] = useState("raj");
   const [error, setError] = useState("");
   const [createUser] = useCreateUserMutation();
 
@@ -30,20 +31,49 @@ const LoginPage = () => {
       return;
     }
 
-    const res = await authServices.login({ email, password });
-    if (!res.success) {
-      setError(res.message!);
+    const { success, data, message } = await authServices.signup({
+      email,
+      password,
+      name,
+    });
+    if (!success) {
+      setError(message!);
+      return;
     }
-    customToast(`Welcome back ${res.data!.displayName}`);
+    console.log(data?.displayName);
+    if (data) {
+      const temp: User = {
+        email: data.email!,
+        _id: data.uid,
+        name: name,
+      };
+      console.log(temp);
+      await addToDb(temp);
+    }
   };
 
   const signUpWithGoogle = async () => {
     const user = await authServices.signupWithGoogle();
 
     if (user) {
-      customToast(`Welcome back ${user.displayName}`);
+      const temp: User = {
+        email: user.email!,
+        _id: user.uid,
+        name: user.displayName!,
+      };
+      await addToDb(temp);
     } else {
       customToast("Failed to login with Google");
+    }
+  };
+
+  const addToDb = async (user: User) => {
+    const res = await createUser(user);
+    if (res.error) {
+      const err = res.error as FetchBaseQueryError;
+      console.log(err);
+    } else {
+      customToast(res.data.message);
     }
   };
 
@@ -62,16 +92,26 @@ const LoginPage = () => {
           <div className="w-full max-w-xs">
             <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
               <div className="flex flex-col items-center gap-2 text-center">
-                <h1 className="text-2xl font-bold">Login to your account</h1>
+                <h1 className="text-2xl font-bold">Create your account</h1>
                 <p className="text-muted-foreground text-sm text-balance">
-                  Enter your email below to login to your account
+                  Enter your details below to create your account
                 </p>
               </div>
               <div className="grid gap-6">
                 <div className="grid gap-3">
+                  <Label htmlFor="name">Name</Label>
+                  <Input
+                    id="name"
+                    placeholder="Raj Dulari"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
+                <div className="grid gap-3">
                   <Label htmlFor="email">Email</Label>
                   <Input
-                    placeholder="m@example.com"
+                    id="email"
+                    placeholder="you@example.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
@@ -99,7 +139,7 @@ const LoginPage = () => {
                 </div>
 
                 <Button type="submit" className="w-full">
-                  Login
+                  Sign up
                 </Button>
                 <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
                   <span className="bg-background text-muted-foreground relative z-10 px-2">
@@ -111,13 +151,13 @@ const LoginPage = () => {
                   className="w-full"
                   onClick={signUpWithGoogle}
                 >
-                  Login with Google
+                  Sign up with Google
                 </Button>
               </div>
               <div className="text-center text-sm">
-                Don&apos;t have an account?{" "}
-                <Link to="/" className="underline underline-offset-4">
-                  Sign up
+                Already have an account?{" "}
+                <Link to="/login" className="underline underline-offset-4">
+                  Log in
                 </Link>
               </div>
             </form>
@@ -135,4 +175,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default SignupPage;
