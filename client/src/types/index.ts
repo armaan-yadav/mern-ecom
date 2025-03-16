@@ -27,4 +27,7 @@ export interface User {
   role?: "admin" | "user";
   gender?: "male" | "female";
   dob?: string;
+  photo?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }

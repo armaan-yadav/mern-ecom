@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { brandName } from "@/constants/constants";
 import { customToast, isValidEmail } from "@/lib/utils";
 import { useCreateUserMutation } from "@/redux/user/userApi";
-import authServices from "@/services/authServices";
+import authServices from "@/services/userAuthServices";
 import { User } from "@/types";
 import { Label } from "@radix-ui/react-label";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";

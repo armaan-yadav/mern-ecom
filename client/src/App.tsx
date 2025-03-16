@@ -21,6 +21,9 @@ const LoginPage = lazy(() => import("./_auth/loginPage/LoginPage"));
 const SignupPage = lazy(() => import("./_auth/signupPage/SignupPage"));
 const MyOrdersPage = lazy(() => import("./_root/myOrdersPage/MyOrdersPage"));
 const PaymentPage = lazy(() => import("./_root/paymentPage/PaymentPage"));
+const EditProfilePage = lazy(
+  () => import("./_root/editProfilePage/EditProfilePage")
+);
 const SuccessPaymentPage = lazy(
   () => import("./_root/successPaymentPage/SuccessPaymentPage")
 );
@@ -55,6 +58,7 @@ function App() {
             <Route path="/payment" element={<PaymentPage />} />
             <Route path="/success-payment" element={<SuccessPaymentPage />} />
             <Route path="/test" element={<TestPage />} />
+            <Route path="/edit-profile" element={<EditProfilePage />} />
           </Route>
           {/* admin layout */}
           <Route element={<AdminLayout />}></Route>

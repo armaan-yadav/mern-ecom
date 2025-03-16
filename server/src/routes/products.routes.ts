@@ -23,7 +23,6 @@ productsRouter.get("/:id", getProductById);
 
 productsRouter.post(
   "/upload-image",
-  isAdminMiddleware,
   upload.single("file"),
   uploadImage
 );

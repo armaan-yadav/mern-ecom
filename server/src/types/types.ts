@@ -69,6 +69,7 @@ export interface IUser {
   email: string;
   role: "admin" | "user";
   gender: "male" | "female";
+  photo: string;
   dob: Date;
   createdAt: Date;
   updatedAt: Date;

@@ -1,5 +1,6 @@
 import { auth } from "@/config/firebase";
 import { customToast } from "@/lib/utils";
+import { MessageResponse } from "@/types/apiTypes";
 import {
   Auth,
   createUserWithEmailAndPassword,
@@ -11,13 +12,15 @@ import {
   User,
 } from "firebase/auth";
 
-interface AuthResponse<T = any> {
+import { User as DbUser } from "../types";
+
+interface UserAuthResponse<T = any> {
   success: boolean;
   message?: string;
   data: T;
 }
 
-const authErrorMessages: Record<string, string> = {
+const userAuthErrorMessages: Record<string, string> = {
   "auth/invalid-credential": "Invalid email or password. Please try again.",
   "auth/email-already-in-use": "An account with this email already exists.",
   "auth/user-disabled": "This account has been disabled.",
@@ -28,8 +31,10 @@ const authErrorMessages: Record<string, string> = {
 };
 class AuthServices {
   private auth: Auth;
+  public server: string;
   constructor() {
     this.auth = auth;
+    this.server = import.meta.env.VITE_SERVER_URL;
   }
 
   async signup({
@@ -40,7 +45,7 @@ class AuthServices {
     email: string;
     password: string;
     name: string;
-  }): Promise<AuthResponse<User | null>> {
+  }): Promise<UserAuthResponse<User | null>> {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       // logn
@@ -52,7 +57,7 @@ class AuthServices {
     } catch (error: any) {
       const errorCode = error.code as string;
       const message =
-        authErrorMessages[errorCode] ||
+        userAuthErrorMessages[errorCode] ||
         "An error occurred during login. Please try again.";
       customToast(message, { duration: 2000 });
       return { success: false, message, data: null };
@@ -69,7 +74,7 @@ class AuthServices {
     } catch (error: any) {
       const errorCode = error.code as string;
       const message =
-        authErrorMessages[errorCode] ||
+        userAuthErrorMessages[errorCode] ||
         "An error occurred during login. Please try again.";
       customToast(message, { duration: 2000 });
       return { success: false, message };
@@ -116,6 +121,49 @@ class AuthServices {
     } catch (error) {
       console.error(error);
       customToast("An error occurred while logging out. Please try again.");
+    }
+  }
+
+  async getCurrentUserFromDb(
+    id: string
+  ): Promise<MessageResponse<DbUser> | null> {
+    try {
+      const user = await fetch(this.server + "/user/" + id);
+      if (!user.ok) {
+        return null;
+      }
+      return await user.json();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  async uploadImage(file: File): Promise<string | null> {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      console.log(file);
+
+      const res = await fetch(this.server + "/user/upload-image", {
+        method: "POST",
+        body: formData,
+        headers: {},
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to upload image");
+      }
+
+      const { data } = await res.json();
+      console.log(data);
+      return data.url;
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      customToast(
+        "An error occurred while uploading the image. Please try again."
+      );
+      return null;
     }
   }
 }

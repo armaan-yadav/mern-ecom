@@ -1,7 +1,8 @@
 import { auth } from "@/config/firebase";
+import authServices from "@/services/userAuthServices";
 import { User } from "@/types";
 import { UserReducerInitalState } from "@/types/reducerTypes";
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { onAuthStateChanged } from "firebase/auth";
 
 const initialState: UserReducerInitalState = {
@@ -38,16 +39,20 @@ const initialState: UserReducerInitalState = {
 //!So we don't need to use createAsyncThunk here.
 
 export const listenToAuthState = () => (dispatch: any) => {
-  dispatch(setLoading(true)); // Set loading state initially
-  onAuthStateChanged(auth, (firebaseUser) => {
+  dispatch(setLoading(true));
+  onAuthStateChanged(auth, async (firebaseUser) => {
     if (firebaseUser) {
-      const user = {
-        _id: firebaseUser.uid,
-        email: firebaseUser.email!,
-        name: firebaseUser.displayName!,
-      };
-      dispatch(setUser(user));
-      console.log("logged in");
+      authServices.getCurrentUserFromDb(firebaseUser.uid).then((e) => {
+        if (e?.success) {
+          const user: User = e.data!;
+
+          dispatch(setUser(user));
+          console.log("logged in");
+        } else {
+          dispatch(setUser(null));
+          console.log("logged in but error fethcing user from db");
+        }
+      });
     } else {
       dispatch(setUser(null));
       console.log("logged out");
@@ -65,6 +70,9 @@ const userSlice = createSlice({
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
+    },
+    updateUser: (state, action: PayloadAction<Partial<User>>) => {
+      state.user = { ...state.user, ...action.payload } as User;
     },
   },
   //   extraReducers: (builder) => {
@@ -85,7 +93,7 @@ const userSlice = createSlice({
   //   },
 });
 
-export const { setUser, setLoading } = userSlice.actions;
+export const { setUser, setLoading, updateUser } = userSlice.actions;
 
 //export userSlice instead of userSlice.reduers to avoid harecoding name in store
 export default userSlice;

@@ -1,14 +1,13 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { brandName } from "@/constants/constants";
+import { useAppSelector } from "@/hooks/hooks";
+import { Search, ShoppingBag } from "lucide-react";
 import { Link } from "react-router-dom";
-import { ShoppingBag, Search } from "lucide-react";
 import { Button } from "../ui/button";
 
-const user = {
-  _id: "123",
-  type: "admin",
-};
-
 const Navbar = () => {
+  const { user } = useAppSelector((state) => state.user);
+
   return (
     <nav className="w-full h-[56px]  flex-b">
       <h2 className="text-lg  font-semibold">{brandName}</h2>
@@ -21,11 +20,17 @@ const Navbar = () => {
         <Link to={"/cart"}>
           <ShoppingBag />
         </Link>
-        <Link to={"/login"}>
-          <Button>Login</Button>
-        </Link>
 
-        {user.type == "admin" && <Link to={"/admin"}>Admin</Link>}
+        {user ? (
+          <Avatar className="cursor-pointer border-[1px] flex-c">
+            <AvatarImage src={user.photo} alt="@shadcn" />
+            <AvatarFallback className="font-semibold bg-black text-white flex-c">
+              {user.name?.[0]?.toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+        ) : (
+          <Button>Login</Button>
+        )}
       </div>
     </nav>
   );

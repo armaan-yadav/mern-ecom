@@ -1,7 +1,8 @@
+import { tryCatch } from "../middlewares/erorr.midddlewares.js";
 import { User } from "../models/user.models.js";
 import { ErrorHandler } from "../utils/errorHandler.js";
-import { tryCatch } from "../middlewares/erorr.midddlewares.js";
 import { responseHandler } from "../utils/features.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 export const createNewUser = tryCatch(async (req, res, next) => {
     //extract the input
     const { _id, email, name } = req.body;
@@ -41,4 +42,26 @@ export const deleteUserById = tryCatch(async (req, res, next) => {
     if (!response)
         return next(new ErrorHandler("Invalid user id", 400));
     return responseHandler(res, 200, "User deleted successfully");
+});
+export const updateProfile = tryCatch(async (req, res, next) => {
+    const { id } = req.params;
+    const { updatedFields } = req.body;
+    console.log(updatedFields);
+    const user = await User.findById(id);
+    if (!user)
+        throw new ErrorHandler(`User does not exist with id ${id}`, 400);
+    const response = await user.updateOne({ ...updatedFields });
+    if (!response)
+        throw new ErrorHandler("Error while updating profile", 500);
+    return responseHandler(res, 200, "Profile updated successfully");
+});
+export const uploadImage = tryCatch(async (req, res, next) => {
+    console.log("first");
+    if (!req.file?.path)
+        throw new ErrorHandler("cound not find file from temp", 400);
+    console.log("hello");
+    const url = await uploadOnCloudinary(req.file.path, "profile");
+    if (!url)
+        throw new ErrorHandler("error  uploading file on cloudinary", 500);
+    return responseHandler(res, 200, "file uploaded successfully", { url });
 });

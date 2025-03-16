@@ -8,7 +8,7 @@ productsRouter.get("/categories", getCategories);
 productsRouter.get("/admin-products", isAdminMiddleware, getAllProducts);
 productsRouter.get("/search", getSearchedProducts);
 productsRouter.get("/:id", getProductById);
-productsRouter.post("/upload-image", isAdminMiddleware, upload.single("file"), uploadImage);
+productsRouter.post("/upload-image", upload.single("file"), uploadImage);
 productsRouter.post("/add", isAdminMiddleware, upload.single("file"), addProduct);
 productsRouter.delete("/delete/:id", isAdminMiddleware, deleteProduct);
 productsRouter.put("/:id", isAdminMiddleware, upload.single("file"), editProduct);

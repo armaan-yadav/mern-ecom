@@ -1,7 +1,7 @@
 import CounterApp from "@/components/shared/CounterApp";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import authServices from "@/services/authServices";
+import authServices from "@/services/userAuthServices";
 import { User } from "@/types";
 import { useState } from "react";
 

@@ -12,7 +12,21 @@ export const userApi = createApi({
       // Don't use "/create-user" as it will be treated as an absolute path
       query: (user) => ({ url: "create-user", method: "POST", body: user }),
     }),
+    getUser: builder.query<MessageResponse<User>, string>({
+      query: (id) => id,
+    }),
+    updateUser: builder.mutation<
+      MessageResponse<null>,
+      { id: string; updatedFields: Partial<User> }
+    >({
+      query: ({ id, updatedFields }) => ({
+        url: `${id}`,
+        method: "PUT",
+        body: { updatedFields },
+      }),
+    }),
   }),
 });
 
-export const { useCreateUserMutation } = userApi;
+export const { useCreateUserMutation, useGetUserQuery, useUpdateUserMutation } =
+  userApi;
