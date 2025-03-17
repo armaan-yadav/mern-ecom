@@ -10,7 +10,7 @@ const initialState: UserReducerInitalState = {
   user: null,
 };
 
-//we're not adding this thunk into the userSlice inside the extraReducers field  because this is a continoous process as we have to keep a check always
+//we're not adding this thunk into the usersSlice inside the extraReducers field  because this is a continoous process as we have to keep a check always
 // so there  is no fulfilled  state for this thunk
 // export const listenToAuthState = createAsyncThunk(
 //   "user/listenToAuthState",
@@ -61,7 +61,7 @@ export const listenToAuthState = () => (dispatch: any) => {
   });
 };
 
-const userSlice = createSlice({
+const usersSlice = createSlice({
   initialState,
   name: "user",
   reducers: {
@@ -93,7 +93,7 @@ const userSlice = createSlice({
   //   },
 });
 
-export const { setUser, setLoading, updateUser } = userSlice.actions;
+export const { setUser, setLoading, updateUser } = usersSlice.actions;
 
-//export userSlice instead of userSlice.reduers to avoid harecoding name in store
-export default userSlice;
+//export usersSlice instead of usersSlice.reduers to avoid harecoding name in store
+export default usersSlice;

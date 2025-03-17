@@ -1,23 +1,29 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "./counter/counterSlice";
-import { userApi } from "./user/userApi";
-import userSlice from "./user/userSlice";
+import usersSlice from "./user/usersSlice";
+import { usersApi } from "./user/usersApi";
+import { productsApi } from "./products/productsApi";
+import productsSlice from "./products/productsSlice";
+import adminApi from "./admin/adminsApi";
 
 // ...
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
-
     // is benifit hai ki value hardcode nayi krni padti
     // kalko if  we  change the name of the slice toh idhar aakr name change nayi karna padega
-    // user: userSlice.reducer,
-    [userSlice.name]: userSlice.reducer,
-
-    [userApi.reducerPath]: userApi.reducer,
+    // user: usersSlice.reducer,
+    [usersSlice.name]: usersSlice.reducer,
+    [productsSlice.name]: productsSlice.reducer,
+    [usersApi.reducerPath]: usersApi.reducer,
+    [productsApi.reducerPath]: productsApi.reducer,
+    [adminApi.reducerPath]: adminApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(userApi.middleware),
+    getDefaultMiddleware().concat(
+      usersApi.middleware,
+      productsApi.middleware,
+      adminApi.middleware
+    ),
 });
 
 // Infer the `RootState`,  `AppDispatch`, and `AppStore` types from the store itself

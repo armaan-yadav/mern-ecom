@@ -31,3 +31,15 @@ export interface User {
   createdAt?: string;
   updatedAt?: string;
 }
+
+export interface Product {
+  _id: string;
+  name: string;
+  photo: string;
+  price: number;
+  stock: number;
+  category: string;
+  inStock: boolean;
+  createdAt: string;
+  updatedAt: string;
+}

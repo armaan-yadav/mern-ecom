@@ -28,8 +28,8 @@ productsRouter.post(
 );
 productsRouter.post(
   "/add",
-  isAdminMiddleware,
-  upload.single("file"),
+  // isAdminMiddleware,
+  // upload.single("file"),
   addProduct
 );
 

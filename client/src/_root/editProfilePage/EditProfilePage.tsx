@@ -14,8 +14,8 @@ import {
   SelectValue,
 } from "../../components/ui/select";
 import authServices from "@/services/userAuthServices";
-import { useUpdateUserMutation } from "@/redux/user/userApi";
-import { updateUser as reduxUpdateUser } from "../../redux/user/userSlice";
+import { useUpdateUserMutation } from "@/redux/user/usersApi";
+import { updateUser as reduxUpdateUser } from "../../redux/user/usersSlice";
 import { customToast } from "@/lib/utils";
 
 const EditProfilePage = () => {

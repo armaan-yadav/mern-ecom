@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { brandName } from "@/constants/constants";
 import { customToast, isValidEmail } from "@/lib/utils";
-import { useCreateUserMutation } from "@/redux/user/userApi";
+import { useCreateUserMutation } from "@/redux/user/usersApi";
 import authServices from "@/services/userAuthServices";
 import { User } from "@/types";
 import { Label } from "@radix-ui/react-label";

@@ -131,7 +131,7 @@ export const getDashboardStats = tryCatch(async (req, res, next) => {
         nodeCache.set("adminStats", JSON.stringify(stats));
         console.log("first");
     }
-    return responseHandler(res, 200, "stats fetched successfully", { stats });
+    return responseHandler(res, 200, "stats fetched successfully", { ...stats });
 });
 export const getOrderStats = tryCatch(async (req, res, next) => {
     let stats;
@@ -161,6 +161,6 @@ export const getOrderStats = tryCatch(async (req, res, next) => {
         };
     }
     return responseHandler(res, 200, "Order stats fetched successfully", {
-        stats,
+        ...stats,
     });
 });

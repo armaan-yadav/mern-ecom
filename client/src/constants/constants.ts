@@ -1,15 +1,15 @@
+import {
+  BadgeIndianRupee,
+  Box,
+  Home,
+  ShoppingBag,
+  Store,
+  Users,
+} from "lucide-react";
+
 import { Order } from "@/types";
 
 export const brandName = "Some Brand";
-export const dummyProduct = {
-  productId: "123",
-  title: "Macbook Air 13 2023",
-  price: "98000",
-  category: "Laptops",
-  inStock: true,
-  thumbnailUrl:
-    "https://www.aptronixindia.com/media/catalog/product/cache/31f0162e6f7d821d2237f39577122a8a/m/b/mbp-spacegray-select-202206-removebg-preview_1_.png",
-};
 
 export const cartItems = [
   {
@@ -200,5 +200,38 @@ export const dummyOrders: Order[] = [
     paymentMethod: "Google Pay",
     transactionId: "TXN246810",
     estimatedDelivery: "2025-03-08",
+  },
+];
+
+export const AdminSidebarItems = [
+  {
+    title: "Dashboard",
+    url: "dashboard",
+    icon: Home,
+  },
+  {
+    title: "Products",
+    url: "products",
+    icon: Box,
+  },
+  {
+    title: "Inventory",
+    url: "inventory",
+    icon: Store,
+  },
+  {
+    title: "Users",
+    url: "users",
+    icon: Users,
+  },
+  {
+    title: "Orders",
+    url: "orders",
+    icon: ShoppingBag,
+  },
+  {
+    title: "Coupons",
+    url: "coupons",
+    icon: BadgeIndianRupee,
   },
 ];

@@ -2,8 +2,8 @@ import { User } from "@/types";
 import { MessageResponse } from "@/types/apiTypes";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export const userApi = createApi({
-  reducerPath: "userApi",
+export const usersApi = createApi({
+  reducerPath: "usersApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${import.meta.env.VITE_SERVER_URL}/user`,
   }),
@@ -29,4 +29,4 @@ export const userApi = createApi({
 });
 
 export const { useCreateUserMutation, useGetUserQuery, useUpdateUserMutation } =
-  userApi;
+  usersApi;

@@ -1,4 +1,3 @@
-import CounterApp from "@/components/shared/CounterApp";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import authServices from "@/services/userAuthServices";
@@ -16,10 +15,9 @@ const TestPage = () => {
     role: "user",
   };
   const [name, setName] = useState("");
+
   return (
     <div>
-      <CounterApp />
-
       <Button
         onClick={async () => {
           const user = await authServices.getCurrentUser();

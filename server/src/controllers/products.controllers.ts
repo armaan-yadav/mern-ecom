@@ -19,24 +19,24 @@ export const uploadImage = tryCatch(async (req, res, next) => {
 
 export const addProduct = tryCatch(async (req, res, next) => {
   // const { name, price, stock, category } = JSON.parse(req.body.data);
-  const { name, price, stock, category, inStock } = req.body;
+  const { name, price, stock, category, inStock, photo } = req.body;
 
   if (!name || !price || !stock || !category || !inStock)
     throw new ErrorHandler("All fields are required", 400);
 
-  if (!req.file?.path)
-    throw new ErrorHandler("Product image  not provided", 400);
+  // if (!req.file?.path)
+  //   throw new ErrorHandler("Product image  not provided", 400);
 
-  const url = await uploadOnCloudinary(req.file.path);
+  // const url = await uploadOnCloudinary(req.file.path);
 
-  if (!url) throw new ErrorHandler("Error uploading image on cloudinary", 500);
+  // if (!url) throw new ErrorHandler("Error uploading image on cloudinary", 500);
 
   const product = await Product.create({
     category,
     name,
     price,
     stock,
-    photo: url,
+    photo,
     inStock,
   });
 
