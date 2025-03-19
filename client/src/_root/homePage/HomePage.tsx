@@ -4,9 +4,8 @@ import { useGetLatestProductsQuery } from "@/redux/products/productsApi";
 import { Link } from "react-router-dom";
 
 const Home = () => {
-  const { data, isLoading, isSuccess } = useGetLatestProductsQuery();
+  const { data, isLoading, isSuccess, error } = useGetLatestProductsQuery();
 
-  console.log(data);
   return (
     <div className="flex flex-col min-h-screen">
       {/* Responsive Banner */}

@@ -30,7 +30,7 @@ const PaymentPage: React.FC = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            productId: "67c88ae0ad8b920e010b7b68",
+            productId: "67d6a2de9b2fc51310862857",
             quantity: 1,
           }),
         }
