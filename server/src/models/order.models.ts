@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 import { User } from "./user.models.js";
 import { IOrder } from "../types/types.js";
 

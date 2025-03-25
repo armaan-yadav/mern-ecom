@@ -1,9 +1,17 @@
-import React from 'react'
+import { DataTable } from "@/components/admin/tables/DataTable";
+import { useGetAllProductsQuery } from "@/redux/admin/adminApi";
+import { productTableColumns } from "./ProductsTableColumns";
 
 const ProductsPage = () => {
-  return (
-    <div>ProductsPage</div>
-  )
-}
+  const { data, isLoading, isSuccess } = useGetAllProductsQuery({
+    adminId: "abc",
+  });
 
-export default ProductsPage
+  return (
+    <div>
+      {isSuccess && <DataTable columns={productTableColumns} data={data} />}
+    </div>
+  );
+};
+
+export default ProductsPage;

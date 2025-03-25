@@ -1,24 +1,3 @@
-export interface Order {
-  _id: string;
-  date: string;
-  orderStatus: string;
-  shippingAddress: string;
-  amount: string;
-  products: {
-    productId: string;
-    thumbnailUrl: string;
-    name: string;
-    price: number;
-    quantity: number;
-  }[];
-  productQuantity: string;
-  customerId: string;
-  paymentStatus: string;
-  paymentMethod: string;
-  transactionId: string;
-  estimatedDelivery: string;
-}
-
 export interface User {
   _id: string;
   name: string;
@@ -42,4 +21,32 @@ export interface Product {
   inStock: boolean;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface IOrder {
+  _id: string;
+  shippingInfo: {
+    address: string;
+    pinCode: number;
+    city: string;
+    state: string;
+  };
+  user: { id: string; name: string };
+  subTotal: number;
+  tax: number;
+  shippingCharges: number;
+  discount: number;
+  total: number;
+  status: "processing" | "shipped" | "delivered" | "cancelled";
+  orderItems: IOrderItem[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface IOrderItem {
+  name: string;
+  price: string;
+  photo: string;
+  quantity: number;
+  productId: string;
 }

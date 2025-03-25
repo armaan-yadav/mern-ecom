@@ -5,7 +5,8 @@ import { isAdminMiddleware } from "../middlewares/admin.middlewares.js";
 const productsRouter = Router();
 productsRouter.get("/latest-products", getLatestProducts);
 productsRouter.get("/categories", getCategories);
-productsRouter.get("/admin-products", isAdminMiddleware, getAllProducts);
+//todo add isAdminMiddleware
+productsRouter.get("/admin-products", getAllProducts);
 productsRouter.get("/search", getSearchedProducts);
 productsRouter.get("/:id", getProductById);
 productsRouter.post("/upload-image", upload.single("file"), uploadImage);
@@ -14,5 +15,7 @@ productsRouter.post("/add",
 // upload.single("file"),
 addProduct);
 productsRouter.delete("/delete/:id", isAdminMiddleware, deleteProduct);
-productsRouter.put("/:id", isAdminMiddleware, upload.single("file"), editProduct);
+productsRouter.put("/:id", 
+// isAdminMiddleware,
+upload.single("file"), editProduct);
 export default productsRouter;

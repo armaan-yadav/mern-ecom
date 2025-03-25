@@ -1,22 +1,15 @@
-import AdminDashboardCard from "@/components/admin/AdminDashboardCard";
-import AdminDashboardOrdersChart from "@/components/admin/AdminDashboardOrdersChart";
-import AdminDashboardRevenueChart from "@/components/admin/AdminDashboardRevenueChart";
-
+import AdminDashboardCard from "@/components/admin/dashboard/AdminDashboardCard";
+import AdminDashboardOrdersChart from "@/components/admin/dashboard/AdminDashboardOrdersChart";
+import AdminDashboardRevenueChart from "@/components/admin/dashboard/AdminDashboardRevenueChart";
 import AdminDashboardCardShimmer from "@/components/shimmer/AdminDashboardCardShimmer";
 import {
   useGetOrderStatsQuery,
   useGetStatsQuery,
-} from "@/redux/admin/adminsApi";
+} from "@/redux/admin/adminApi";
 import { BadgeIndianRupee, ShoppingBag, Users } from "lucide-react";
 
 const DashboardPage = () => {
-  const {
-    data,
-    error,
-    isLoading: isStatsLoading,
-    isSuccess,
-    isError,
-  } = useGetStatsQuery();
+  const { data, isLoading: isStatsLoading } = useGetStatsQuery();
 
   const { data: orderStats, isSuccess: isOrderStatsLoaded } =
     useGetOrderStatsQuery();

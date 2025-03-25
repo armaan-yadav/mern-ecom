@@ -11,15 +11,16 @@ import { isAdminMiddleware } from "../middlewares/admin.middlewares.js";
 
 const ordersRouter = Router();
 
+//  TODO add isAdminMIddleware
 ordersRouter.post("/new", newOrder);
 ordersRouter.get("/my", myOrders);
-ordersRouter.get("/all", isAdminMiddleware, allOrders);
+ordersRouter.get("/all", allOrders);
 
 ordersRouter.get("/:id", getOrderById);
 
-ordersRouter.put("/:id", isAdminMiddleware, editOrder);
+ordersRouter.put("/:id", editOrder);
 
-ordersRouter.delete("/:id", isAdminMiddleware, deleteOrder);
+ordersRouter.delete("/:id", deleteOrder);
 
 // another way
 // ordersRouter.route("/:id").get(getOrderById).put(editOrder).delete(deleteOrder);

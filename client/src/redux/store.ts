@@ -3,7 +3,8 @@ import usersSlice from "./user/usersSlice";
 import { usersApi } from "./user/usersApi";
 import { productsApi } from "./products/productsApi";
 import productsSlice from "./products/productsSlice";
-import adminApi from "./admin/adminsApi";
+import adminApi from "./admin/adminApi";
+import orderApi from "./order/OrderApi";
 
 // ...
 
@@ -17,12 +18,14 @@ export const store = configureStore({
     [usersApi.reducerPath]: usersApi.reducer,
     [productsApi.reducerPath]: productsApi.reducer,
     [adminApi.reducerPath]: adminApi.reducer,
+    [orderApi.reducerPath]: orderApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       usersApi.middleware,
       productsApi.middleware,
-      adminApi.middleware
+      adminApi.middleware,
+      orderApi.middleware
     ),
 });
 

@@ -17,15 +17,12 @@ const productsRouter = Router();
 
 productsRouter.get("/latest-products", getLatestProducts);
 productsRouter.get("/categories", getCategories);
-productsRouter.get("/admin-products", isAdminMiddleware, getAllProducts);
+//todo add isAdminMiddleware
+productsRouter.get("/admin-products", getAllProducts);
 productsRouter.get("/search", getSearchedProducts);
 productsRouter.get("/:id", getProductById);
 
-productsRouter.post(
-  "/upload-image",
-  upload.single("file"),
-  uploadImage
-);
+productsRouter.post("/upload-image", upload.single("file"), uploadImage);
 productsRouter.post(
   "/add",
   // isAdminMiddleware,
@@ -37,7 +34,7 @@ productsRouter.delete("/delete/:id", isAdminMiddleware, deleteProduct);
 
 productsRouter.put(
   "/:id",
-  isAdminMiddleware,
+  // isAdminMiddleware,
   upload.single("file"),
   editProduct
 );

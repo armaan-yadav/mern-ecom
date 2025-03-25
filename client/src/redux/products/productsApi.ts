@@ -13,7 +13,14 @@ export const productsApi = createApi({
       transformResponse: (response: MessageResponse<{ products: Product[] }>) =>
         response.data?.products ?? [],
     }),
+    getProductById: builder.query<Product, { productId: string }>({
+      query: ({ productId }) => ({ url: productId }),
+      transformResponse: (response: MessageResponse<Product>) => {
+        return response.data as Product;
+      },
+    }),
   }),
 });
 
-export const { useGetLatestProductsQuery } = productsApi;
+export const { useGetLatestProductsQuery, useGetProductByIdQuery } =
+  productsApi;

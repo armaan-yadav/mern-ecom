@@ -26,6 +26,7 @@ export interface InvalidateCacheProps {
   userId?: string;
 }
 
+
 export interface IOrder {
   _id?: Types.ObjectId;
   shippingInfo: {
@@ -40,11 +41,12 @@ export interface IOrder {
   shippingCharges: number;
   discount: number;
   total: number;
-  status: "processing" | "shipped" | "delivered";
-  orderItems: {}[];
+  status: "processing" | "shipped" | "delivered" | "cancelled";
+  orderItems: OrderItem[];
   createdAt?: Date;
   updatedAt?: Date;
 }
+
 export interface OrderItem {
   name: string;
   price: string;
@@ -61,7 +63,9 @@ export interface IProduct {
   createdAt: Date;
   updatedAt: Date;
   inStock: boolean;
+  
 }
+
 export interface IUser {
   _id: string;
   name: string;

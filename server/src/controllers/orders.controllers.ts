@@ -1,6 +1,7 @@
 import { nodeCache } from "../index.js";
 import { tryCatch } from "../middlewares/erorr.midddlewares.js";
 import { Order } from "../models/order.models.js";
+import { User } from "../models/user.models.js";
 import { ErrorHandler } from "../utils/errorHandler.js";
 import {
   invalidateCache,
@@ -34,6 +35,9 @@ export const newOrder = tryCatch(async (req, res, next) => {
   ) {
     throw new ErrorHandler("All fields are required", 400);
   }
+
+  const userFromDb = await User.findById(user);
+  if (!userFromDb) throw new ErrorHandler("No user exists with given id", 404);
 
   const order = await Order.create({
     shippingInfo,

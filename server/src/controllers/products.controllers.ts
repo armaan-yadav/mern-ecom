@@ -170,9 +170,7 @@ export const getAllProducts = tryCatch(async (req, res, next) => {
       500
     );
 
-  return responseHandler(res, 201, "products fetched successfully", {
-    products,
-  });
+  return responseHandler(res, 201, "products fetched successfully", products);
 });
 
 export const getSearchedProducts = tryCatch(async (req, res, next) => {

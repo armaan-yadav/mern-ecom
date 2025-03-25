@@ -1,4 +1,4 @@
-export async function errorMiddleware(err, req, res, next) {
+export async function errorMiddleware(err, req, res) {
     err.message ||= "Internal Server Error.";
     err.statusCode ||= 500;
     return res.status(400).json({ message: err.message, success: false });

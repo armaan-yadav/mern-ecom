@@ -1,6 +1,5 @@
 import express, { Application, Response } from "express";
 import userRouter from "./routes/user.routes.js";
-
 import cors from "cors";
 import morgan from "morgan";
 import NodeCache from "node-cache";
@@ -11,6 +10,7 @@ import dashboardRouter from "./routes/dashboard.routes.js";
 import ordersRouter from "./routes/orders.routes.js";
 import paymentsRouter from "./routes/payments.routes.js";
 import productsRouter from "./routes/products.routes.js";
+
 const app: Application = express();
 const port = 4000;
 

@@ -12,11 +12,14 @@ import { upload } from "../middlewares/multer.middleware.js";
 
 const userRouter = express.Router();
 
-userRouter.post("/create-user", createNewUser);
-userRouter.post("/upload-image", upload.single("file"), uploadImage);
 userRouter.get("/all-users", isAdminMiddleware, getAllUsers);
 userRouter.get("/:id", getUserById);
+
+userRouter.post("/create-user", createNewUser);
+userRouter.post("/upload-image", upload.single("file"), uploadImage);
+
 userRouter.put("/:id", updateProfile);
+
 userRouter.delete("/:id", deleteUserById);
 
 export default userRouter;

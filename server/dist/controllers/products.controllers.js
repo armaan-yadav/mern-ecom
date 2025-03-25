@@ -129,9 +129,7 @@ export const getAllProducts = tryCatch(async (req, res, next) => {
     }
     if (!products)
         throw new ErrorHandler("Something went wrong while fetching latest products", 500);
-    return responseHandler(res, 201, "products fetched successfully", {
-        products,
-    });
+    return responseHandler(res, 201, "products fetched successfully", products);
 });
 export const getSearchedProducts = tryCatch(async (req, res, next) => {
     const { search, sort, category, price } = req.query;

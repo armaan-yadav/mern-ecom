@@ -7,6 +7,7 @@ import ProtectedRoutes from "./components/shared/ProtectedRoutes";
 import { Toaster } from "./components/ui/sonner";
 import { useAppDispatch, useAppSelector } from "./hooks/hooks";
 import { listenToAuthState } from "./redux/user/usersSlice";
+import ManageProductPage from "./_admin/manageProduct/ManageProductPage";
 
 // Lazy imports for layouts
 const AdminLayout = lazy(() => import("./_admin/AdminLayout"));
@@ -96,6 +97,10 @@ function App() {
             <Route path="/admin/coupons" element={<AdminCouponsPage />} />
             <Route path="/admin/users" element={<AdminUserssPage />} />
             <Route path="/admin/products" element={<AdminProductsPage />} />
+            <Route
+              path="/admin/manage-product/:productId"
+              element={<ManageProductPage />}
+            />
           </Route>
         </Routes>
         <Toaster />

@@ -1,3 +1,4 @@
+import { Card, CardContent } from "@/components/ui/card";
 import {
   LucideIcon,
   MoveDown,
@@ -5,7 +6,6 @@ import {
   TrendingDown,
   TrendingUp,
 } from "lucide-react";
-import { Card, CardContent } from "../ui/card";
 
 type Props = {
   title: string;

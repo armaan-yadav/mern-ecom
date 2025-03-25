@@ -17,24 +17,15 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { DataTablePagination } from "./Pagination";
 import { useState } from "react";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { TablePagination } from "./TablePagination";
 
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { DataTableColumnHeader } from "./Header";
-import { DataTableViewOptions } from "./Toggle";
+import { DataTableViewOptions } from "./TableToggle";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -65,18 +56,21 @@ export function DataTable<TData, TValue>({
     },
   });
 
+  const filters = table.getAllColumns();
+
   return (
     <div className="rounded-md border">
       <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-
+        <div>
+          {/* <Input
+            placeholder="Filter emails..."
+            value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn("email")?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          /> */}
+        </div>
         <DataTableViewOptions table={table} />
         <div />
       </div>
@@ -123,7 +117,7 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
-      <DataTablePagination table={table} />
+      <TablePagination table={table} />
     </div>
   );
 }
