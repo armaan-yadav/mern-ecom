@@ -1,7 +1,6 @@
 import ProductCard from "@/components/shared/ProductCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { dummyProduct } from "@/constants/constants";
 import { SearchIcon } from "lucide-react";
 import {
   Select,
@@ -78,12 +77,7 @@ const Search = () => {
 
         {/* dummy products for now  */}
 
-        <div className="grid  md:grid-cols-3">
-          {" "}
-          <ProductCard {...dummyProduct} />
-          <ProductCard {...dummyProduct} />
-          <ProductCard {...dummyProduct} />
-        </div>
+        <div className="grid  md:grid-cols-3"> </div>
 
         <Pagination>
           <PaginationContent>

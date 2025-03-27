@@ -81,7 +81,6 @@ export const productTableColumns: ColumnDef<Product>[] = [
     id: "actions",
     cell: ({ row }) => {
       const product = row.original;
-      console.log(product._id);
       const navigate = useNavigate();
       return (
         <DropdownMenu>

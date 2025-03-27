@@ -37,3 +37,27 @@ export function getLastSixMonths() {
 
   return months;
 }
+
+export const uploadImageToCloudinary = async (
+  file: File
+): Promise<string | null> => {
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await fetch(
+      `${import.meta.env.VITE_SERVER_URL}/products/upload-image`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+
+    const data = await response.json();
+    console.log(data);
+    return data.data as string;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};

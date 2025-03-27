@@ -17,5 +17,6 @@ addProduct);
 productsRouter.delete("/delete/:id", isAdminMiddleware, deleteProduct);
 productsRouter.put("/:id", 
 // isAdminMiddleware,
-upload.single("file"), editProduct);
+// upload.single("file"),
+editProduct);
 export default productsRouter;

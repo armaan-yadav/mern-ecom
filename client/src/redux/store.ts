@@ -2,7 +2,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import usersSlice from "./user/usersSlice";
 import { usersApi } from "./user/usersApi";
 import { productsApi } from "./products/productsApi";
-import productsSlice from "./products/productsSlice";
 import adminApi from "./admin/adminApi";
 import orderApi from "./order/OrderApi";
 
@@ -14,7 +13,6 @@ export const store = configureStore({
     // kalko if  we  change the name of the slice toh idhar aakr name change nayi karna padega
     // user: usersSlice.reducer,
     [usersSlice.name]: usersSlice.reducer,
-    [productsSlice.name]: productsSlice.reducer,
     [usersApi.reducerPath]: usersApi.reducer,
     [productsApi.reducerPath]: productsApi.reducer,
     [adminApi.reducerPath]: adminApi.reducer,

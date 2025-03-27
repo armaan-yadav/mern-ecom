@@ -35,7 +35,7 @@ productsRouter.delete("/delete/:id", isAdminMiddleware, deleteProduct);
 productsRouter.put(
   "/:id",
   // isAdminMiddleware,
-  upload.single("file"),
+  // upload.single("file"),
   editProduct
 );
 

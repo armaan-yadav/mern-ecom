@@ -1,49 +1,35 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import authServices from "@/services/userAuthServices";
-import { User } from "@/types";
-import { useState } from "react";
+import { uploadImageToCloudinary } from "@/lib/utils";
+import { useEffect, useState } from "react";
 
 const TestPage = () => {
-  const user: User = {
-    _id: "abcdefglslk",
-    dob: "1995-06-15",
-    email: "armaan111232@gmail.com",
-    gender: "male",
-    name: "Armaan Yadav",
-    phone: "+2122356450",
-    role: "user",
-  };
-  const [name, setName] = useState("");
+  const [image, setImage] = useState<File | null>();
+  const [localUrl, setLocalUrl] = useState<string>();
+
+  useEffect(() => {
+    if (image) {
+      const url = URL.createObjectURL(image);
+      setLocalUrl(url);
+
+      return () => URL.revokeObjectURL(url);
+    }
+  }, [image]);
 
   return (
     <div>
+      <Input type="file" onChange={(e) => setImage(e.target.files?.[0])} />
+
+      {localUrl && <img src={localUrl} className="h-[300px]" />}
+
       <Button
         onClick={async () => {
-          const user = await authServices.getCurrentUser();
-          if (user) {
-            console.log(user);
+          if (image) {
+            await uploadImageToCloudinary(image);
           }
         }}
       >
-        get
-      </Button>
-      <Input onChange={(e) => setName(e.target.value)} value={name} />
-
-      <Button
-        onClick={async () => {
-          await authServices.updateUserProfile({ displayName: name });
-        }}
-      >
-        update
-      </Button>
-
-      <Button
-        onClick={async () => {
-          await authServices.logout();
-        }}
-      >
-        logout
+        Upload
       </Button>
     </div>
   );

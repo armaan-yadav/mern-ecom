@@ -19,8 +19,17 @@ export const productsApi = createApi({
         return response.data as Product;
       },
     }),
+    getAllCategories: builder.query<string[], void>({
+      query: () => "categories",
+      transformResponse: (response: MessageResponse<string[]>) => {
+        return response.data as string[];
+      },
+    }),
   }),
 });
 
-export const { useGetLatestProductsQuery, useGetProductByIdQuery } =
-  productsApi;
+export const {
+  useGetLatestProductsQuery,
+  useGetProductByIdQuery,
+  useGetAllCategoriesQuery,
+} = productsApi;

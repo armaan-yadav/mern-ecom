@@ -7,10 +7,10 @@ import { invalidateCache, responseHandler } from "../utils/features.js";
 export const uploadImage = tryCatch(async (req, res, next) => {
     if (!req.file?.path)
         throw new ErrorHandler("cound not find file from temp", 400);
-    const url = await uploadOnCloudinary(req.file.path);
+    const url = await uploadOnCloudinary(req.file.path, "products");
     if (!url)
         throw new ErrorHandler("error  uploading file on cloudinary", 500);
-    return responseHandler(res, 200, "file uploaded successfully", { url });
+    return responseHandler(res, 200, "file uploaded successfully", url);
 });
 export const addProduct = tryCatch(async (req, res, next) => {
     // const { name, price, stock, category } = JSON.parse(req.body.data);
@@ -61,9 +61,7 @@ export const getCategories = tryCatch(async (req, res, next) => {
     }
     if (!categories)
         throw new ErrorHandler("Something went wrong while getting categories", 500);
-    return responseHandler(res, 201, "categoried fetched successfully", {
-        categories,
-    });
+    return responseHandler(res, 201, "categoried fetched successfully", categories);
 });
 export const deleteProduct = tryCatch(async (req, res, next) => {
     const { id } = req.params;
@@ -92,25 +90,26 @@ export const getProductById = tryCatch(async (req, res, next) => {
     }
     if (!product)
         throw new ErrorHandler("abc", 400);
-    return responseHandler(res, 200, "product fetched successfully", { product });
+    return responseHandler(res, 200, "product fetched successfully", product);
 });
 //TODO can make  it better :
 export const editProduct = tryCatch(async (req, res, next) => {
     const id = req.params.id;
     const { updatedFields } = req.body;
-    const updatedProduct = JSON.parse(updatedFields);
+    // const updatedProduct = JSON.parse(updatedFields);
     if (!id)
         throw new ErrorHandler("Invalid id", 400);
-    const imagePath = req.file?.path;
-    console.log(imagePath);
-    if (Object.keys(updatedProduct).length == 0 && !imagePath) {
-        throw new ErrorHandler("No Value to update", 400);
-    }
-    if (imagePath) {
-        const url = await uploadOnCloudinary(imagePath);
-        updatedProduct.photo = url;
-    }
-    const response = await Product.findByIdAndUpdate(id, updatedProduct);
+    // const imagePath = req.file?.path;
+    // console.log(imagePath);
+    // if (Object.keys(updatedProduct).length == 0) {
+    //   throw new ErrorHandler("No Value to update", 400);
+    // }
+    // if (imagePath) {
+    //   const url = await uploadOnCloudinary(imagePath);
+    //   updatedProduct.photo = url;
+    // }
+    console.log(updatedFields);
+    const response = await Product.findByIdAndUpdate(id, updatedFields);
     if (!response) {
         throw new ErrorHandler(`Product with id ${id} does not exist`, 400);
     }

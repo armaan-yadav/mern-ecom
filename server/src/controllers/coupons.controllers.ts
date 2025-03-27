@@ -16,7 +16,6 @@ export const newCoupon = tryCatch(async (req, res, next) => {
 
   return responseHandler(res, 201, `Coupon added successfullly`, c);
 });
-
 export const allCoupons = tryCatch(async (req, res, next) => {
   const coupons = await Coupon.find({}).select([
     "coupon",

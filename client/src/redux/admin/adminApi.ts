@@ -29,6 +29,15 @@ const adminApi = createApi({
         return response.data as Product[];
       },
     }),
+    editProduct: builder.mutation<void, { id: string; data: Partial<Product> }>(
+      {
+        query: ({ data, id }) => ({
+          method: "PUT",
+          url: `products/${id}`,
+          body: { updatedFields: data },
+        }),
+      }
+    ),
   }),
 });
 
@@ -36,5 +45,6 @@ export const {
   useGetOrderStatsQuery,
   useGetStatsQuery,
   useGetAllProductsQuery,
+  useEditProductMutation,
 } = adminApi;
 export default adminApi;
